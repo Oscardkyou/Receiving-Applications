@@ -1,0 +1,166 @@
+{% extends "base.html" %} 
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/create_delivery.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <img src="https://remalux.kz/wp-content/uploads/Remalux.svg" width="100" height="50" class="me-2"
+                    viewBox="0 0 118 94">
+                <span class="fs-4">Remalux</span>
+            </a>
+
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <form method="get">
+                    {% if user.is_authenticated %}
+                    <div class="btn-group">
+                        {% if user.is_staff %}
+                        <a href="/admin-dashboard" class="btn btn-outline-primary" type="button">Admin Dashboard</a>
+                        {% endif%}
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle mx-2"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{ user.username }}
+                            {% if user.profile.image %}
+                            <img src="{{ user.profile.image.url }}" alt="Avatar"
+                                style="border-radius: 50%; width: 40px;" />
+                            {% else %}
+                            <img src="{static 'img/ui.jpg'}" alt="Avatar" style="border-radius: 50%; width: 40px;" />
+                            {% endif %}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'profile_detail' user.id %}">Личный кабинет</a>
+                            <a class="dropdown-item" href="https://remalux.kz/shop/">Товары</a>
+                            <a class="dropdown-item" href="https://remalux.kz/contacts/">Контакты</a>
+                            <a class="dropdown-item" href="https://remalux.kz/about/">О нас</a>
+                            <li><hr class="dropdown-divider"></li>
+                            <a class="dropdown-item" href="/logout">Выйти</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <a href="/login">
+                        <button type="button" class="btn btn-outline-primary me-2">Войти</button>
+                    </a>
+                    <a href="/register">
+                        <button type="button" class="btn btn-warning">Я тут впервые</button>
+                    </a>
+                    {% endif %}
+                </form>
+            </nav>
+        </div>
+
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal text-body-emphasis">Пример заполнения | {{ user.username }}</h1>
+            <p class="fs-5 text-body-secondary">
+                Ознакомтесь примером заполнения заявки 
+            </p>
+        </div>
+    </header>
+    <div class="delivery-form-container">
+        <form method="post">
+            <p><b>Наименование товара:</b> Здесь вводится наименование товара или продукта, который будет отправлен. В нашем примере это "Краска Мемби".        </p>
+            <input disabled value="Краска Мемби" type="text" class="form-control additional-class" name="product_name" placeholder="Наименование товара">
+            <p><b>Вес груза:</b> Указывается вес груза, который отправляется. Например, "2" может означать 2 кг.</p>
+            <input disabled value="2" type="number" class="form-control additional-class" name="weight" placeholder="Вес груза">
+            <p><b>Объем груза:</b> Здесь указывается объем груза в кубических метрах или другой единице измерения. Например, "2" может быть 2 куб. м.</p>
+            <input disabled value="2" type="number" class="form-control additional-class" name="volume" placeholder="Объем груза">
+            <p><b>Количество единиц товара:</b> Общее количество товара или продукта. Например, "100" банок краски.</p>
+            <input disabled value="100" type="number" class="form-control additional-class" name="quantity" placeholder="Количество единиц товара">
+            <p><b>PDF документ:</b> Здесь можно загрузить документацию или иную важную информацию, связанную с грузом.</p>
+            <input type="file" class="form-control-file additional-class" name="document" placeholder="PDF документ">
+            <p><b>Адрес:</b> Указывается адрес, откуда будет забираться груз.</p>
+            <textarea class="form-control additional-class" rows="3" name="address_line" placeholder="Алма-Ата, Проспект Гагарина, ​Алмалинский район, Алматы ​050009/A05A3F0"></textarea>
+            <p><b>Доставка:</b> Адрес, куда груз будет доставлен.</p>
+            <textarea class="form-control additional-class" rows="3" name="delivery_address" placeholder="Улица Александр Бараев, ​Байконыр район, Астана​ Z00T699"></textarea>
+            <p><b>Дополнительная информация:</b> Любая дополнительная информация, которую следует учитывать при отправке или доставке.</p>
+            <textarea class="form-control additional-class" rows="3" name="additional_info" placeholder="Антон примет доставку, на пример"></textarea>
+            <p><b>Необходимость страхования груза:</b> Выберите "Да", если груз нуждается в страховании, и "Нет", если нет.</p>
+            <select class="form-control additional-class" name="insurance_needed">
+                <option value="no" selected>Нет</option>
+                <option value="yes">Да</option>
+            </select>        
+            <p><b>Особые требования:</b> Любые дополнительные требования или заметки к грузу.</p>
+            <textarea class="form-control additional-class" rows="3" name="special_requirements" placeholder="Особые требования"></textarea>
+            <p><b>Необходимость хранения:</b> Отметьте, если необходимо временное хранение груза перед отправкой или после доставки.
+                <input checked type="checkbox" class="form-check-input additional-class" name="storage" placeholder="Необходимость хранения">
+            </p>
+            <p><b>Таможенное оформление:</b> Отметьте, если груз требует таможенного оформления.
+                <input checked type="checkbox" class="form-check-input additional-class" name="customs_clearance" placeholder="Таможенное оформление">
+            </p>
+            <p><b>Упаковка:</b> Отметьте, если необходимо особое упаковывание груза.
+                <input checked type="checkbox" class="form-check-input additional-class" name="packaging" placeholder="Упаковка">
+            </p>
+            <p><b>Полное имя:</b> Имя отправителя или контактного лица. Например, "Marselle".</p>
+            <input disabled value="Marselle" type="text" class="form-control additional-class" name="full_name" placeholder="Полное имя">
+            <p><b>Наименование компании:</b> Название компании отправителя. Например, "Remalux".        </p>
+            <input disabled value="Remalux" type="text" class="form-control additional-class" name="company_name" placeholder="Наименование компании">
+            <p><b>Контактный номер телефона:</b> Телефон для связи. Например, "+7747***9991".</p>
+            <input disabled value="+7747***9991" type="text" class="form-control additional-class" name="phone_number" placeholder="Контактный номер телефона">
+            <p><b>Адрес электронной почты:</b> Электронный адрес отправителя для уведомлений или связи.</p>
+            <input disabled value="remalux@exemple.com" type="email" class="form-control additional-class" name="email" placeholder="Адрес электронной почты">
+            <p><b>Желаемая дата отправления:</b> Дата, когда отправитель хочет, чтобы груз был отправлен.</p>
+            <input type="date" class="form-control additional-class" name="desired_departure_date" placeholder="Желаемая дата отправления">
+            <p><b>Сроки доставки:</b> Желаемая дата доставки груза.</p>
+            <input type="date" class="form-control additional-class" name="delivery_deadline" placeholder="Сроки доставки">
+            <a href="/" class="btn btn-primary" type="button">Назад</a>
+        </form>
+        
+    </div>
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+            <div class="col-12 col-md">
+                <img class="mb-2" src="https://remalux.kz/wp-content/uploads/Remalux.svg" alt="" width="80" height="19">
+                <small class="d-block mb-3 text-body-secondary">Remalux © 2021-2023 <br>
+                    <br>
+                    <a href="https://remalux.kz/privacy-policy/" class="link-secondary text-decoration-none">Политика
+                        конфиденциальности</a></small>
+            </div>
+            <div class="col-6 col-md">
+                <h5>REMALUX</h5>
+                <ul class="list-unstyled text-small">
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://remalux.kz/about/">О
+                            нас</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/projects/">Проекты</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/news/">Новости</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/contacts/">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>МАГАЗИН</h5>
+                <ul class="list-unstyled text-small">
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/shop/">Товары</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/payment-delivery/">Доставка и оплата</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/calculator/">Калькулятор</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/colours/">Выбрать цвет</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/public-offer/">Публичная оферта</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>КОНТАКТЫ</h5>
+                <ul class="list-unstyled text-small">
+                    <li class="mb-1">Алматы, ул. Толе Би, 300/2</li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="tel:+77272381238">+7 727
+                            238-1238</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="tel:+77272381488">+7 727
+                            238-1488</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="mailto:info@remalux.kz">info@remalux.kz</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
+
+{% endblock %}

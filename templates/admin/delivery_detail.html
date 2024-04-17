@@ -1,0 +1,75 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/delivery_detail.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Детали заявки на доставку</h2>
+
+    <div class="card mb-3 bg-dark">
+        <div class="card-header text-bg-dark">Груз</div>
+        <div class="card-body text-bg-dark">
+            <p class="mb-1">Наименование товара: <strong>{{ delivery.product_name }}</strong></p>
+            <p class="mb-1">Вес: <strong>{{ delivery.weight }} кг</strong></p>
+            <p class="mb-1">Объем: <strong>{{ delivery.volume }} м<sup>3</sup></strong></p>
+            <p class="mb-1">Количество: <strong>{{ delivery.quantity }}</strong></p>
+            {% if delivery.document %}
+            <p class="mb-1">Документ: <a href="{{ delivery.document.url }}" class="btn btn-primary btn-sm"
+                    download>Скачать</a></p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card mb-3 bg-dark">
+        <div class="card-header text-bg-dark">Адреса</div>
+        <div class="card-body text-bg-dark">
+            <p class="mb-1">Пункт отправления: <strong>{{ delivery.address_line }}</strong></p>
+            <p class="mb-1">Пункт доставки: <strong>{{ delivery.delivery_address }}</strong></p>
+        </div>
+    </div>
+
+    <div class="card mb-3 bg-dark">
+        <div class="card-header text-bg-dark">Требования к услуге</div>
+        <div class="card-body text-bg-dark">
+            <p class="mb-1">Страхование: <strong>{{ delivery.insurance_needed }}</strong></p>
+            <p class="mb-1">Хранение: <strong>{{ delivery.storage|yesno:"Да,Нет" }}</strong></p>
+            <p class="mb-1">Таможенное оформление: <strong>{{ delivery.customs_clearance|yesno:"Да,Нет" }}</strong></p>
+            <p class="mb-1">Упаковка: <strong>{{ delivery.packaging|yesno:"Да,Нет" }}</strong></p>
+            {% if delivery.special_requirements %}
+            <p class="mb-1">Особые требования: <strong>{{ delivery.special_requirements }}</strong></p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card mb-3 bg-dark">
+        <div class="card-header text-bg-dark">Контактная информация</div>
+        <div class="card-body text-bg-dark">
+            <p class="mb-1">Имя: <strong>{{ delivery.full_name }}</strong></p>
+            <p class="mb-1">Компания: <strong>{{ delivery.company_name }}</strong></p>
+            <p class="mb-1">Телефон: <strong>{{ delivery.phone_number }}</strong></p>
+            <p class="mb-1">Email: <strong>{{ delivery.email }}</strong></p>
+        </div>
+    </div>
+
+    <div class="card mb-3 bg-dark">
+        <div class="card-header text-bg-dark">Даты</div>
+        <div class="card-body text-bg-dark">
+            <p class="mb-1">Желаемая дата отправления: <strong>{{ delivery.desired_departure_date }}</strong></p>
+            <p class="mb-1">Сроки доставки: <strong>{{ delivery.delivery_deadline }}</strong></p>
+        </div>
+    </div>
+    <div class="card mb-3 bg-dark">
+        <form action="{% url 'delete_delivery' delivery.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash"></i> Удалить
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/delivery_detail.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Детали графика</h2>
+
+    <div class="card mb-3 bg-dark">
+        <div class="card-header text-bg-dark">График</div>
+        <div class="card-body text-bg-dark">
+            <p class="mb-1">Получатель: <strong>{{ schedule_file.recipient }}</strong></p>
+            <p class="mb-1">Заявка: <strong>{{ schedule_file.application }}</strong></p>
+            <p class="mb-1">Дата отправки: <strong>{{ schedule_file.data }} </strong></p>
+            <p class="mb-1">Дополнительная информация: <strong>{{ schedule_file.additional_info }}</strong></p>
+            <br><br>
+            {% if schedule_file.file_and_photo %}
+            <p class="mb-1">Загрузить документ: <a href="{{ schedule_file.file_and_photo.url }}" class="btn btn-primary btn-sm"
+                    download>Скачать</a></p>
+            {% endif %}
+            {% if schedule_file.file_and_photo %}
+            <p class="mb-1">Просмотреть документ: <a href="{{ schedule_file.file_and_photo.url }}" class="btn btn-primary btn-sm"
+                >Просмотреть</a></p>
+            {% endif %}
+        </div>
+    </div>
+
+    
+</div>
+{% endblock %}

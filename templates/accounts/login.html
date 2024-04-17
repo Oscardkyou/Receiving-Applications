@@ -1,0 +1,134 @@
+{% extends 'base_accounts.html' %}
+
+{% block content %}
+<div class="container py-3">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                <img src="https://remalux.kz/wp-content/uploads/Remalux.svg" width="100" height="50" class="me-2"
+                    viewBox="0 0 118 94">
+                <span class="fs-4">Remalux</span>
+            </a>
+
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <form method="get">
+                    {% if user.is_authenticated %}
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle mx-2"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{ user.username }}
+                            {% if user.profile.image %}
+                            <img src="{{ user.profile.image.url }}" alt="Avatar"
+                                style="border-radius: 50%; width: 40px;" />
+                            {% else %}
+                            <img src="{static 'img/ui.jpg'}" alt="Avatar" style="border-radius: 50%; width: 40px;" />
+                            {% endif %}
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'profile_detail' user.id %}">Личный кабинет</a>
+                            <a class="dropdown-item" href="https://remalux.kz/shop/">Товары</a>
+                            <a class="dropdown-item" href="https://remalux.kz/contacts/">Контакты</a>
+                            <a class="dropdown-item" href="https://remalux.kz/about/">О нас</a>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <a class="dropdown-item" href="/logout">Выйти</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <a href="/login">
+                        <button type="button" class="btn btn-outline-primary me-2">Войти</button>
+                    </a>
+                    <a href="/register">
+                        <button type="button" class="btn btn-warning">Я тут впервые</button>
+                    </a>
+                    {% endif %}
+                </form>
+            </nav>
+        </div>
+
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal text-body-emphasis">Добро пожаловать в Remalux</h1>
+            <p class="fs-5 text-body-secondary">
+                Пройдите авторизацию
+            </p>
+        </div>
+    </header>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Авторизация Аккаунта
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="username">Имя пользователя:</label>
+                                <input type="text" class="form-control additional-class" id="username" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Пароль:</label>
+                                <input type="password" class="form-control additional-class" id="password" name="password" required>
+                            </div><br>
+                            <button type="submit" class="btn btn-primary">Войти</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+            <div class="col-12 col-md">
+                <img class="mb-2" src="https://remalux.kz/wp-content/uploads/Remalux.svg" alt="" width="80" height="19">
+                <small class="d-block mb-3 text-body-secondary">Remalux © 2021-2023 <br>
+                    <br>
+                    <a href="https://remalux.kz/privacy-policy/" class="link-secondary text-decoration-none">Политика
+                        конфиденциальности</a></small>
+            </div>
+            <div class="col-6 col-md">
+                <h5>REMALUX</h5>
+                <ul class="list-unstyled text-small">
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="https://remalux.kz/about/">О
+                            нас</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/projects/">Проекты</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/news/">Новости</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/contacts/">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>МАГАЗИН</h5>
+                <ul class="list-unstyled text-small">
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/shop/">Товары</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/payment-delivery/">Доставка и оплата</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/calculator/">Калькулятор</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/colours/">Выбрать цвет</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="https://remalux.kz/public-offer/">Публичная оферта</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>КОНТАКТЫ</h5>
+                <ul class="list-unstyled text-small">
+                    <li class="mb-1">Алматы, ул. Толе Би, 300/2</li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="tel:+77272381238">+7 727
+                            238-1238</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="tel:+77272381488">+7 727
+                            238-1488</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none"
+                            href="mailto:info@remalux.kz">info@remalux.kz</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
+{% endblock %}

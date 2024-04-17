@@ -1,0 +1,52 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Панель управления администратора</h1>
+
+    {% if all_users %}
+    <div class="d-flex justify-content-center">
+        <div class="table-responsive" style="max-width: 100%;">
+            <table class="table table-dark table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Роль</th>
+                        <th scope="col">Пользо-кое Имя</th>
+                        <th scope="col">ИФ</th>
+                        <th scope="col">Номер</th>
+                        <th scope="col">Дата рождения</th>
+                        <th scope="col">Компания</th>
+                        <th scope="col">О себе</th>
+                        <th scope="col">Дата регистрации</th>
+                        <th scope="col">Профиль</th>
+                        <th scope="col">История</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for users in all_users %}
+                    <tr>
+                        {% if users.is_superuser %}
+                        <td><button class="btn btn-warning">administrator</button></td>
+                        {% else %}
+                        <td><button class="btn btn-dark">user</button></td>
+                        {% endif %}
+                        <td>{{ users.username }}</td>
+                        <td>{{ users.first_name }} {{ users.last_name }}</td>
+                        <td>{{ users.profile.phone }}</td>
+                        <td>{{ users.profile.birth_date }}</td>
+                        <td>{{ users.profile.company_name }}</td>
+                        <td>{{ users.profile.about }}</td>
+                        <td>{{ users.profile.created_at|date:"d M Y" }}</td>
+                        <td><a href="{% url 'user_profile_detail' users.id %}" type="button" class="btn btn-secondary">Посмотреть</a></td>
+                        <td><a href="{% url 'user_deliveries' users.id %}" type="button" class="btn btn-secondary">Заявки</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <p class="text-center mt-4">Записи о пользователей отсутствуют.</p>
+    {% endif %}
+</div>
+{% endblock %}

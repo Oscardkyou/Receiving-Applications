@@ -1,0 +1,55 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="mb-4">График автоперевозок</h1>
+    </div>
+
+    {% if schedules %}
+        <div class="d-flex justify-content-center">
+            <div class="table-responsive" style="max-width: 2000px;">
+                <table class="table table-dark table-borderless table-hover table-zebra table-enhanced">
+                    <thead>
+                        <tr>
+                            <th scope="col">Получатель</th>
+                            <th scope="col">Груз</th>
+                            <th scope="col">Дата отправки</th>
+                            <th scope="col">Дополнительная информация</th>
+                            <th scope="col">Дата создания</th>
+                            <th scope="col">Документ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for schedule in schedules %}
+                        <tr>
+                            <td>{{ schedule.recipient.username }}</td>
+                            <td>{{ schedule.application.product_name }}</td>
+                            <td>{{ schedule.data|date:"d M Y" }}</td>
+                            <td>{{ schedule.additional_info }}</td>
+                            <td>{{ schedule.created_at|date:"d M Y" }}</td>
+                            <td>
+                                <a type="button" class="btn btn-info" href="{% url 'schedule_file_id' schedule.id %}">
+                                    <i class="fas fa-eye"></i> Просмотреть
+                                </a>
+                            </td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <p class="text-center mt-4">Графики автоперевозок отсутствуют.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

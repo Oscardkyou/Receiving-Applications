@@ -1,0 +1,65 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center text-primary">Профиль пользователя: {{ user.username }}</h1>
+
+    {% if user.profile.image %}
+    <div class="mt-5 text-center">
+        <h3 class="text-muted">Изображение профиля</h3>
+        <img src="{{ user.profile.image.url }}" width="200px" height="200px" class="img-thumbnail mb-4" alt="Profile Image">
+    </div>
+    {% endif %}
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            <h4 style="color: red;">{{ message }}</h4>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="card shadow-lg mb-5">
+        <div class="card-header bg-primary text-white">
+            Информация о пользователе
+        </div>
+        <div class="card-body bg-light">
+            <dl class="row">
+                <dt class="col-sm-4 text-muted">Имя пользователя:</dt>
+                <dd class="col-sm-8">{{ profile_user.username }}</dd>
+
+                <dt class="col-sm-4 text-muted">Электронная почта:</dt>
+                <dd class="col-sm-8">{{ profile_user.email|default:"У пользователя нет электронной почты" }}</dd>
+
+                <dt class="col-sm-4 text-muted">Имя:</dt>
+                <dd class="col-sm-8">{{ profile_user.first_name|default:"У пользователя нет имени" }}</dd>
+
+                <dt class="col-sm-4 text-muted">Фамилия:</dt>
+                <dd class="col-sm-8">{{ profile_user.last_name|default:"У пользователя нет фамилии" }}</dd>
+
+                <dt class="col-sm-4 text-muted">Номер телефона:</dt>
+                <dd class="col-sm-8">{{ profile_user.profile.phone|default:"У пользователя нет номера телефона" }}</dd>
+
+                <dt class="col-sm-4 text-muted">Дата рождения:</dt>
+                <dd class="col-sm-8">{{ profile_user.profile.birth_date|default:"У пользователя нет даты рождения" }}</dd>
+                
+                <dt class="col-sm-4 text-muted">Компания:</dt>
+                <dd class="col-sm-8">{{ profile_user.profile.company_name|default:"У пользователя нет компании" }}</dd>
+
+                <dt class="col-sm-4 text-muted">О себе:</dt>
+                <dd class="col-sm-8">{{ profile_user.profile.about|default:"Пользователь не написал нисего о себе" }}</dd>
+
+                <dt class="col-sm-4 text-muted">Дата регистрации:</dt>
+                <dd class="col-sm-8">{{ profile_user.profile.created_at|date:"d M Y" }}</dd>
+            </dl>
+            <div class="mt-3 text-center">
+                <form action="{% url 'delete_user' profile_user.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Удалить пользователя</button>
+                </form>
+                <a href="{% url 'users_view_admin' %}" type="button" class="btn btn-secondary">Назад</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

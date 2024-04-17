@@ -1,0 +1,94 @@
+{% extends "base_admin.html" %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .card {
+        background-color: #1f1f1f;
+        border: none;
+    }
+
+    .card-header {
+        border-bottom-color: #333;
+    }
+
+    .form-group label {
+        color: #ababab;
+    }
+
+    .form-control {
+        background-color: #333;
+        color: #ffffff;
+        border-color: #444;
+        transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .btn-primary {
+        transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+    }
+
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: #0069d9;
+        border-color: #005cbf;
+        transform: scale(1.05);
+    }
+
+    .invalid-feedback {
+        color: #ff5757;
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .container {
+        animation: fadeIn 0.6s forwards;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            Создание графика автоперевозок по регионам
+        </div>
+        <div class="card-body">
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+                <br>
+                <button type="submit" class="btn btn-primary">Создать график</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,95 @@
+::-webkit-scrollbar{
+    width: 10px;
+}
+::-webkit-scrollbar-track{
+    margin: 0;
+    background:rgba(0, 0, 0, 0);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb{
+    background: rgb(160, 160, 160);
+    border-radius: 25px;
+}
+::-webkit-scrollbar-track:hover{
+    background: rgba(255, 108, 108, 0);
+}
+::-webkit-scrollbar-thumb:hover{
+    background: rgb(58, 58, 58);
+}
+
+.content-container {
+    max-width: 1400px;
+    /* Увеличим максимальную ширину */
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.news-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    /* Увеличим зазор между карточками */
+    justify-content: center;
+}
+
+.news-card {
+    width: calc(40% - 1rem);
+    /* Увеличим ширину карточки */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    background: linear-gradient(135deg, #f3f5f7, #e0e0e0);
+    display: flex;
+    flex-direction: column;
+}
+
+.news-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.news-image-wrapper {
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+}
+
+.news-image {
+    width: 100%;
+    display: block;
+    transition: transform 0.3s;
+}
+
+.news-image-wrapper:hover .news-image {
+    transform: scale(1.1);
+}
+
+.news-content {
+    padding: 1.5rem;
+    /* Увеличим внутренний отступ */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.news-card h3 {
+    font-size: 1.4rem;
+    /* Увеличим размер шрифта заголовка */
+    margin-bottom: 1rem;
+    /* Увеличим отступ под заголовком */
+}
+
+.news-card p {
+    margin-top: 0;
+    flex-grow: 1;
+    font-size: 1.1rem;
+    /* Увеличим размер шрифта абзаца */
+}
+
+.news-date {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 1.5rem;
+    align-self: flex-end;
+}
